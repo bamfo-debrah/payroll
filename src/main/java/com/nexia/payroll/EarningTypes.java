@@ -5,32 +5,29 @@
  */
 package com.nexia.payroll;
 
+import com.sun.xml.internal.fastinfoset.util.FixedEntryStringIntMap;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author debrah
  */
 @Entity
-@NamedQueries({@NamedQuery(name = "Department.getall",query = "SELECT e FROM Department e ORDER BY e.name")
-        ,@NamedQuery(name = "Department.getByName",query = "SELECT e FROM Department e WHERE e.name=:name")})
-public class Department extends AbstractEntity {
+public class EarningTypes extends AbstractEntity {
 
-    @OneToMany(mappedBy = "department")
-    private final Set<Employee> employees = new HashSet<>();
     private static final long serialVersionUID = 1L;
-    
     private String name;
+    private EarningType type;
+
+    public enum EarningType {
+
+        Fixed, Percentage
+    }
 
     public String getName() {
         return name;
@@ -39,24 +36,28 @@ public class Department extends AbstractEntity {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return this.name.hashCode() + this.type.hashCode();
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Department)) {
+        if (!(object instanceof EarningTypes)) {
             return false;
         }
-        Department other = (Department) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        EarningTypes other = (EarningTypes) object;
+        if (!(this.name.equals(other.name) && this.type.equals(other.type))) {
             return false;
         }
         return true;
@@ -64,7 +65,7 @@ public class Department extends AbstractEntity {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name+"  "+this.type;
     }
 
 }

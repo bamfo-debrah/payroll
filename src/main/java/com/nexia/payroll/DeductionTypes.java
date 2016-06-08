@@ -5,32 +5,27 @@
  */
 package com.nexia.payroll;
 
+import com.sun.xml.internal.fastinfoset.util.FixedEntryStringIntMap;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author debrah
  */
 @Entity
-@NamedQueries({@NamedQuery(name = "Department.getall",query = "SELECT e FROM Department e ORDER BY e.name")
-        ,@NamedQuery(name = "Department.getByName",query = "SELECT e FROM Department e WHERE e.name=:name")})
-public class Department extends AbstractEntity {
-
-    @OneToMany(mappedBy = "department")
-    private final Set<Employee> employees = new HashSet<>();
+public class DeductionTypes extends AbstractEntity{
     private static final long serialVersionUID = 1L;
+   private String name;
+   private RepaymentType type;
+   
+   public enum RepaymentType{
+       Fixed,installments }
     
-    private String name;
 
     public String getName() {
         return name;
@@ -39,8 +34,18 @@ public class Department extends AbstractEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+   
     
-    
+   
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public int hashCode() {
@@ -52,10 +57,10 @@ public class Department extends AbstractEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Department)) {
+        if (!(object instanceof DeductionTypes)) {
             return false;
         }
-        Department other = (Department) object;
+        DeductionTypes other = (DeductionTypes) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -64,7 +69,7 @@ public class Department extends AbstractEntity {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name+" "+this.type;
     }
-
+    
 }

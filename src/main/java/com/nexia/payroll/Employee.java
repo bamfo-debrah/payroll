@@ -6,10 +6,14 @@
 package com.nexia.payroll;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,11 +22,17 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "emp")
-@NamedQueries({@NamedQuery(name = "Employee.getAll", query = "SELECT e FROM Employee e ORDER BY e.lastName"),
-@NamedQuery(name = "Employee.getById", query = "SELECT e FROM Employee e WHERE e.id=:id")})
-public class Employee extends AbstractEntity{
+@NamedQueries({
+    @NamedQuery(name = "Employee.getAll", query = "SELECT e FROM Employee e ORDER BY e.lastName"),
+    @NamedQuery(name = "Employee.getById", query = "SELECT e FROM Employee e WHERE e.id=:id")})
+public class Employee extends AbstractEntity {
+
+    @OneToMany(mappedBy = "employee")
+    private List<EmployeeDeductions> deductionTypess;
+    @OneToMany(mappedBy = "employee")
+    private final Set<EmployeeEarnings> earningTypess = new HashSet<>();
     private static final long serialVersionUID = 1L;
-    
+
     private String ssfNumber;
     private String firstName;
     private String middleName;
@@ -132,40 +142,10 @@ public class Employee extends AbstractEntity{
     public void setDepartment(Department department) {
         this.department = department;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     @Override
     public int hashCode() {
-       return this.ssfNumber.hashCode();
+        return this.ssfNumber.hashCode();
     }
 
     @Override
@@ -179,23 +159,23 @@ public class Employee extends AbstractEntity{
 //            return false;
 //        }
 //        return true;
-    
-    if(!(object instanceof Employee)){
+
+        if (!(object instanceof Employee)) {
+            return false;
+        }
+
+        Employee other = (Employee) object;
+
+        if (this.ssfNumber.equals(other.ssfNumber)) {
+            return true;
+        }
         return false;
-    }
-    
-    Employee other=(Employee) object;
-    
-    if(this.ssfNumber.equals(other.ssfNumber))
-    {
-        return true;
-    }
-    return  false;
     }
 
     @Override
     public String toString() {
-        return "com.nexia.payroll.Employee[ id=" + id + " ]";
+
+        return (this.middleName == null || this.middleName.isEmpty()) ? this.firstName + " " + this.lastName : this.firstName + " " + this.middleName + " " + this.lastName;
     }
-    
+
 }
