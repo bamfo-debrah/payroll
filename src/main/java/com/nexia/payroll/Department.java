@@ -23,7 +23,8 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({@NamedQuery(name = "Department.getall",query = "SELECT e FROM Department e ORDER BY e.name")
-        ,@NamedQuery(name = "Department.getByName",query = "SELECT e FROM Department e WHERE e.name=:name")})
+        ,@NamedQuery(name = "Department.getById",query = "SELECT e FROM Department e WHERE e.id=:id"),
+@NamedQuery(name = "Department.getByName",query = "SELECT e FROM Department e WHERE e.name=:name")})
 public class Department extends AbstractEntity {
 
     @OneToMany(mappedBy = "department")

@@ -12,12 +12,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author debrah
  */
 @Entity
+@NamedQueries({@NamedQuery(name = "DeductionTypes.getAll", query = "SELECT e FROM EarningTypes e ORDER BY e.name"),
+@NamedQuery(name = "DeductionTypes.getById", query = "SELECT e from EarningTypes e WHERE e.id=:id"),
+@NamedQuery(name = "DeductionTypes.getByName", query = "SELECT e from EarningTypes e WHERE e.name=:name"),
+@NamedQuery(name = "DeductionTypes.getByType",query = "SELECT e from EarningTypes e WHERE e.type=:type")})
 public class DeductionTypes extends AbstractEntity{
     private static final long serialVersionUID = 1L;
    private String name;
