@@ -7,6 +7,7 @@ package com.nexia.payroll;
 
 import com.sun.xml.internal.fastinfoset.util.FixedEntryStringIntMap;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,15 +21,26 @@ import javax.persistence.NamedQuery;
  * @author debrah
  */
 @Entity
-@NamedQueries({@NamedQuery(name = "EarningType.getAll",query = "SELECT e from EarningTypes e ORDER BY e.name"),
-@NamedQuery(name = "EarningType.getByName", query = "SELECT e from EarningTypes e WHERE e.name=:name"),
-@NamedQuery(name = "EarningType.getByType", query = "SELECT e from EarningTypes e WHERE e.type=:type"),
-@NamedQuery(name = "EarningType.getById", query = "SELECT e from EarningTypes e WHERE e.id=:id")})
+@NamedQueries({
+    @NamedQuery(name = "EarningType.getAll", query = "SELECT e from EarningTypes e ORDER BY e.name"),
+    @NamedQuery(name = "EarningType.getByName", query = "SELECT e from EarningTypes e WHERE e.name=:name"),
+    @NamedQuery(name = "EarningType.getByType", query = "SELECT e from EarningTypes e WHERE e.type=:type"),
+    @NamedQuery(name = "EarningType.getById", query = "SELECT e from EarningTypes e WHERE e.id=:id")})
 public class EarningTypes extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
+    @Column(name = "name")
     private String name;
+    @Column(name = "type")
     private EarningType type;
+
+    public EarningType getType() {
+        return type;
+    }
+
+    public void setType(EarningType type) {
+        this.type = type;
+    }
 
     public enum EarningType {
 
@@ -71,7 +83,7 @@ public class EarningTypes extends AbstractEntity {
 
     @Override
     public String toString() {
-        return this.name+"  "+this.type;
+        return this.name + "  " + this.type;
     }
 
 }

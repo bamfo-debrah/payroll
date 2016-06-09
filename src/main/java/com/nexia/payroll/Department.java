@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class Department extends AbstractEntity {
     @OneToMany(mappedBy = "department")
     private final Set<Employee> employees = new HashSet<>();
     private static final long serialVersionUID = 1L;
-    
+    @Column(name = "name")
     private String name;
 
     public String getName() {

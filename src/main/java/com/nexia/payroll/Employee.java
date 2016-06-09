@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -27,10 +28,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "Employee.getById", query = "SELECT e FROM Employee e WHERE e.id=:id")})
 public class Employee extends AbstractEntity {
 
-    @OneToMany(mappedBy = "employee")
-    private List<EmployeeDeductions> deductionTypess;
-    @OneToMany(mappedBy = "employee")
-    private final Set<EmployeeEarnings> earningTypess = new HashSet<>();
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
+    private List<EmployeeDeductions> employeeDeductions;
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
+    private final Set<EmployeeEarnings> employeeEarnings = new HashSet<>();
     private static final long serialVersionUID = 1L;
 
     private String ssfNumber;
@@ -57,6 +58,14 @@ public class Employee extends AbstractEntity {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public List<EmployeeDeductions> getEmployeeDeductions() {
+        return employeeDeductions;
+    }
+
+    public void setEmployeeDeductions(List<EmployeeDeductions> employeeDeductions) {
+        this.employeeDeductions = employeeDeductions;
     }
 
     public void setFirstName(String firstName) {
@@ -93,6 +102,10 @@ public class Employee extends AbstractEntity {
 
     public void setPostalAdd(String postalAdd) {
         this.postalAdd = postalAdd;
+    }
+
+    public Set<EmployeeEarnings> getEmployeeEarnings() {
+        return employeeEarnings;
     }
 
     public String getEmail() {

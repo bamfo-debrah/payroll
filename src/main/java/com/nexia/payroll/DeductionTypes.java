@@ -7,6 +7,7 @@ package com.nexia.payroll;
 
 import com.sun.xml.internal.fastinfoset.util.FixedEntryStringIntMap;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,9 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "DeductionTypes.getByType",query = "SELECT e from EarningTypes e WHERE e.type=:type")})
 public class DeductionTypes extends AbstractEntity{
     private static final long serialVersionUID = 1L;
-   private String name;
+   @Column(name = "name")
+    private String name;
+   @Column(name = "type")
    private RepaymentType type;
    
    public enum RepaymentType{
@@ -41,7 +44,13 @@ public class DeductionTypes extends AbstractEntity{
         this.name = name;
     }
 
-   
+   public RepaymentType getType() {
+        return type;
+    }
+
+    public void setType(RepaymentType type) {
+        this.type = type;
+    }
     
    
 
